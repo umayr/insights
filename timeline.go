@@ -8,16 +8,19 @@ import (
 
 type Timeline map[time.Time]Conversation
 
-func NewTimeline(c Conversation) (t Timeline) {
+func NewTimeline(c Conversation, d time.Duration) (t Timeline) {
+	if d == 0 {
+		d = time.Hour * 24
+	}
 	first, last := c.First(), c.Last()
 
 	start := time.Date(first.Time.Year(), first.Time.Month(), first.Time.Day(), 0, 0, 0, 0, time.UTC)
 	end := time.Date(last.Time.Year(), last.Time.Month(), last.Time.Day(), 23, 59, 59, 999999999, time.UTC)
 
-	days := int(math.Ceil(float64(end.Sub(start)) / float64(time.Hour*24)))
+	days := int(math.Ceil(float64(end.Sub(start)) / float64(d)))
 
 	cursor := start
-	limit := start.Add(time.Hour * 24).Add(time.Nanosecond * -1)
+	limit := start.Add(d).Add(time.Nanosecond * -1)
 
 	t = make(Timeline, days)
 
@@ -30,8 +33,8 @@ func NewTimeline(c Conversation) (t Timeline) {
 			}
 		}
 
-		cursor = cursor.Add(time.Hour * 24)
-		limit = cursor.Add(time.Hour * 24).Add(time.Nanosecond * -1)
+		cursor = cursor.Add(d)
+		limit = cursor.Add(d).Add(time.Nanosecond * -1)
 	}
 
 	return

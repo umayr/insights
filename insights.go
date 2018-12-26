@@ -5,8 +5,8 @@ import (
 )
 
 type Insights struct {
-	First     Message        `json:"first"`
-	Last      Message        `json:"last"`
+	First     *Message       `json:"first"`
+	Last      *Message       `json:"last"`
 	Duration  time.Duration  `json:"duration"`
 	Frequency map[string]int `json:"frequency"`
 
@@ -39,12 +39,11 @@ type Insights struct {
 	AverageWordsPerDay    float64 `json:"averageWordsPerDay"`
 	AverageLettersPerDay  float64 `json:"averageLettersPerDay"`
 
-	EmojisUsed map[string]int `json:"emojisUsed"`
+	EmojisUsed map[string]map[string]int `json:"emojisUsed"`
 }
 
 func New(c Conversation) *Insights {
 	i := &Insights{}
-
 	i.First, i.Last, i.Duration = c.First(), c.Last(), c.Duration()
 	i.Frequency = c.Frequency()
 	i.TotalMessages, i.TotalWords, i.TotalLetters = c.Count(), c.Words(), c.Letters()
@@ -53,7 +52,7 @@ func New(c Conversation) *Insights {
 	i.Contribution = c.Contribution()
 	i.ContributionCount, i.ContributionWords, i.ContributionLetters, i.ContributionFrequency = i.Contribution.Extract()
 
-	i.Timeline = c.Timeline()
+	i.Timeline = c.Timeline(time.Hour * 24 * 7)
 	i.TimelineCount, i.TimelineWords, i.TimelineLetters = i.Timeline.Extract()
 
 	i.MostActiveDay, i.MostActiveCount = i.Timeline.Most()

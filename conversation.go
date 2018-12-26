@@ -11,7 +11,7 @@ const regexSplit = `\[.*].*:\s`
 
 const delimiter = string(0xEF) + "##" + string(0xEF)
 
-type Conversation []Message
+type Conversation []*Message
 
 func NewConversation(src string, tz string) (c Conversation, err error) {
 	raw := regexp.MustCompile(regexSplit).ReplaceAllStringFunc(src, func(s string) string {
@@ -36,6 +36,9 @@ func NewConversation(src string, tz string) (c Conversation, err error) {
 
 		m, err := NewMessage(raw, l)
 		if err != nil {
+			if err == ErrInvalidMessage {
+				continue
+			}
 			return nil, err
 		}
 		c = append(c, m)
@@ -44,7 +47,7 @@ func NewConversation(src string, tz string) (c Conversation, err error) {
 	return
 }
 
-func (c Conversation) First() (m Message) {
+func (c Conversation) First() (m *Message) {
 	if len(c) == 0 {
 		return
 	}
@@ -52,7 +55,7 @@ func (c Conversation) First() (m Message) {
 	return c[0]
 }
 
-func (c Conversation) Last() (m Message) {
+func (c Conversation) Last() (m *Message) {
 	if len(c) == 0 {
 		return
 	}
@@ -95,8 +98,8 @@ func (c Conversation) Letters() int {
 	return len(strings.Join(strings.Fields(c.combine()), ""))
 }
 
-func (c Conversation) Timeline() (t Timeline) {
-	return NewTimeline(c)
+func (c Conversation) Timeline(period time.Duration) (t Timeline) {
+	return NewTimeline(c, period)
 }
 
 func (c Conversation) Participants() (p Participants) {
@@ -130,16 +133,16 @@ func (c Conversation) Average() (words, letters float64) {
 
 func (c Conversation) Frequency() (m map[string]int) {
 	m = map[string]int{
-		"0h":  0,
-		"1h":  0,
-		"2h":  0,
-		"3h":  0,
-		"4h":  0,
-		"5h":  0,
-		"6h":  0,
-		"7h":  0,
-		"8h":  0,
-		"9h":  0,
+		"00h": 0,
+		"01h": 0,
+		"02h": 0,
+		"03h": 0,
+		"04h": 0,
+		"05h": 0,
+		"06h": 0,
+		"07h": 0,
+		"08h": 0,
+		"09h": 0,
 		"10h": 0,
 		"11h": 0,
 		"12h": 0,
@@ -157,13 +160,24 @@ func (c Conversation) Frequency() (m map[string]int) {
 	}
 
 	for _, v := range c {
-		k := fmt.Sprintf("%dh", v.Time.Hour())
+		k := fmt.Sprintf("%02dh", v.Time.Hour())
 		m[k] = m[k] + 1
 	}
 
 	return
 }
 
-func (c Conversation) Emoji() map[string]int {
-	return CountEmoji(c.combine())
+func (c Conversation) Emoji() map[string]map[string]int {
+	p := c.Participants()
+	v := make(map[string]map[string]int, len(p))
+	for _, n := range p {
+		src := ""
+		for _, m := range c {
+			if m.Sender == n {
+				src += m.Text
+			}
+		}
+		v[n] = CountEmoji(src)
+	}
+	return v
 }

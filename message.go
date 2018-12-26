@@ -64,8 +64,15 @@ type Message struct {
 	rawText string
 }
 
-func NewMessage(raw string, loc *time.Location) (m Message, err error) {
+var ErrInvalidMessage = fmt.Errorf("invalid message")
+
+func NewMessage(raw string, loc *time.Location) (*Message, error) {
+	m := &Message{}
 	m.rawText = regexp.MustCompile(regexASCII).ReplaceAllLiteralString(raw, "")
+
+	if strings.Contains(raw, "Messages to this group are now secured with end-to-end encryption.") || strings.Contains(raw, "created this group") {
+		return nil, ErrInvalidMessage
+	}
 
 	r := regexp.MustCompile(regexMetaInfo)
 	t := r.Split(raw, -1)
@@ -104,10 +111,10 @@ func NewMessage(raw string, loc *time.Location) (m Message, err error) {
 
 	tm, err := time.Parse("1/2/06, 3:04:05 PM", g1)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	m.Time = time.Date(tm.Year(), tm.Month(), tm.Day(), tm.Hour(), tm.Minute(), tm.Second(), tm.Nanosecond(), loc)
 
-	return
+	return m, nil
 }
