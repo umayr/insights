@@ -4,7 +4,7 @@
 ## Usage
 ```bash
    # if you have go set up, install with the go get
-   λ go get -u github.com/umayr/insights
+   λ go get -u github.com/umayr/insights/cmd/insights
    # make sure you have $GOBIN defined in your environment
    λ insights -pretty ./path/to/chat/file.txt
    # you can also clone the repository and make the binary yourself
