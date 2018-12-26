@@ -1,0 +1,79 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h2, h4, h5 {
+    padding: 0 0;
+    margin: 0;
+    color: #333333;
+    font-family: "Helvetica", sans-serif;
+}
+
+h5 {
+    font-weight: 500;
+    font-size: 16px;
+
+    padding: 25px 0;
+}
+
+h4 {
+    font-weight: 700;
+    font-size: 16px;
+
+    padding: 25px 0;
+}
+
+.wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.wrap h4, .wrap h5 {
+    padding: 5px 0;
+}
+
+.heading {
+    display: flex;
+    padding: 20px 0;
+}
+
+.val {
+    padding-left: 10px;
+}
+
+.container > .item {
+    text-align: center;
+}
+
+.limit {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.donut {
+    width: 200px;
+    height: 225px;
+    position: relative;
+
+    margin: 0 25px;
+}
+
+.frequency {
+    width: 800px;
+    height: 400px;
+    position: relative;
+}
+
+.timeline {
+    width: 800px;
+    height: 250vh;
+    position: relative;
+}
+.emojis {
+    width: 800px;
+    height: 50vh;
+    position: relative;
+}

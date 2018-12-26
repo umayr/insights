@@ -20,3 +20,6 @@ raw/
 
 # IDE configuration
 .idea/
+
+# Ignore Packr generated files
+*packr.go

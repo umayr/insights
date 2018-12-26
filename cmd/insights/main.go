@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/umayr/insights"
+	"github.com/umayr/insights/server"
 )
 
 func main() {
@@ -15,6 +16,7 @@ func main() {
 		flagTimezone = flag.String("timezone", "", "Timezone of the exported chat like Asia/Dubai")
 		flagServer   = flag.Bool("server", false, "Serve the insights in graphical representation")
 		flagPretty   = flag.Bool("pretty", true, "Display the JSON in pretty format")
+		flagPort = flag.String("port", "9000", "Port for the server")
 	)
 
 	flag.Parse()
@@ -46,8 +48,13 @@ func main() {
 	}
 
 	i := insights.New(c)
+
 	if *flagServer {
-		// turn on the server
+		s := server.New(i)
+		if err := s.Start(*flagPort); err != nil {
+			fmt.Printf("error: %s\n", err.Error())
+			os.Exit(1)
+		}
 		return
 	}
 

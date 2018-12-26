@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" type="text/css" href="/public/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="item">
+        <h5>Count</h5>
+        <div class="donut">
+            <canvas id="contrib-count"></canvas>
+        </div>
+    </div>
+    <div class="item">
+        <h5>Words</h5>
+        <div class="donut">
+            <canvas id="contrib-words"></canvas>
+        </div>
+    </div>
+    <div class="item">
+        <h5>Letters</h5>
+        <div class="donut">
+            <canvas id="contrib-letters"></canvas>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="item">
+        <h5>Frequency</h5>
+        <div class="frequency">
+            <canvas id="radar"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="item">
+        <h5>Emojis Used</h5>
+        <div class="emojis">
+            <canvas id="emojis"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="item">
+        <h5>Timeline</h5>
+        <div class="timeline">
+            <canvas id="timeline"></canvas>
+        </div>
+    </div>
+</div>
+
+{{ range .Sections }}
+<div class="limit">
+    <div class="heading">
+        <h2>{{ .Heading }}</h2>
+    </div>
+</div>
+<div class="limit">
+    {{ range $key, $value := .Values }}
+        <div class="wrap">
+            <div class="attr"><h4>{{ $key }}:</h4></div>
+            <div class="val"><h5>{{ $value }}</h5></div>
+        </div>
+    {{ end }}
+</div>
+{{ end }}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"
+        integrity="sha256-MZo5XY1Ah7Z2Aui4/alkfeiq3CopMdV/bbkc/Sh41+s=" crossorigin="anonymous"></script>
+<script type="application/javascript">
+    window.data = JSON.parse({{ .JSON }})
+</script>
+<script type="application/javascript" src="/public/script.js"></script>
+</body>
+</html>
