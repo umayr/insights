@@ -110,9 +110,9 @@
                         labels: model.src.map(([key]) => key),
                         datasets: [
                             {
-                                backgroundColor: Object.entries(colorsMap).map(([, value]) =>
-                                    rgbaFormat(value)
-                                ),
+                                backgroundColor: Object.entries(colorsMap)
+                                    .map(([, value]) => rgbaFormat(value))
+                                    .reverse(),
                                 data: model.src.map(([, value]) => value)
                             }
                         ]
