@@ -36,7 +36,7 @@
 - Contribution Words Per Participant
 - Contribution Letters Per Participant
 - Contribution Frequency Per Participant
-- Timeline (how many messages per day)
+- Timeline (how many messages per day/week/month/year)
 - Timeline Count
 - Timeline Words
 - Timeline Letters
@@ -44,3 +44,16 @@
 - Most Active Count
 - Least Active Day
 - Least Active Count
+- Emoji Used
+
+## Graph
+
+It also comes with a server that would represent the data extracted from the chat in graphical format it would require `-server` argument during execution, it would look like this:
+
+![](Example.png)
+
+## Contribution
+
+This is a very crude implementation that I cooked up within a day so there are tons of improvements that could be done, please feel free to send a PR or raise an issue if you find anything. 
+
+
