@@ -72,8 +72,13 @@ h4 {
     height: 250vh;
     position: relative;
 }
+
 .emojis {
     width: 800px;
     height: 50vh;
     position: relative;
+}
+
+.space {
+    padding: 20px 0;
 }
