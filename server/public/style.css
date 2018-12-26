@@ -4,7 +4,7 @@
     justify-content: center;
 }
 
-h2, h4, h5 {
+h2, h4, h5, p {
     padding: 0 0;
     margin: 0;
     color: #333333;
@@ -81,4 +81,28 @@ h4 {
 
 .space {
     padding: 20px 0;
+}
+
+.legends {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.legend {
+    padding: 0 10px;
+}
+
+.legend > span, .legend > p {
+    display: inline-block;
+}
+.legend > span {
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+.legend > p {
+    line-height: 1;
+    vertical-align: top;
+    padding: 3px 5px;
 }
