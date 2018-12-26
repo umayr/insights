@@ -36,7 +36,7 @@ func (s *Server) process() error {
 		return err
 	}
 
-	f:= "Monday, 02 Jan 2006"
+	f := "Monday, 02 Jan 2006"
 	p := &Payload{}
 	p.JSON = string(b)
 

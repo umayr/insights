@@ -16,7 +16,7 @@ func main() {
 		flagTimezone = flag.String("timezone", "", "Timezone of the exported chat like Asia/Dubai")
 		flagServer   = flag.Bool("server", false, "Serve the insights in graphical representation")
 		flagPretty   = flag.Bool("pretty", true, "Display the JSON in pretty format")
-		flagPort = flag.String("port", "9000", "Port for the server")
+		flagPort     = flag.String("port", "9000", "Port for the server")
 	)
 
 	flag.Parse()
