@@ -19,6 +19,7 @@ ARCHS := "amd64 386"
 
 default: build
 
+.PHONY: dep
 dep:
 ifdef DEP
 	@dep ensure
@@ -29,6 +30,7 @@ else
 	@dep ensure
 endif
 
+.PHONY: pack
 pack:
 ifdef PACK
 	@packr
@@ -39,32 +41,41 @@ else
 	@packr
 endif
 
+.PHONY: clean
 clean:
 	@packr clean
 	@if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
 
+.PHONY: pretest
 pretest:
 	@gofmt -d $$(find . -type f -name '*.go' -not -path "./vendor/*") 2>&1 | read; [ $$? == 1 ]
 
+.PHONY: vet
 vet:
 	@go vet $(go list -f '{{ .ImportPath }}' ./... | grep -v vendor/)
 
+.PHONY: test
 test: pretest vet lint dep
 	@go test -v $$(go list -f '{{ .ImportPath }}' ./... | grep -v vendor/) -p=1
 
+.PHONY: build
 build: clean test
 	@packr && go build -x -ldflags ${LDFLAGS} -o bin/${BINARY} github.com/umayr/${BINARY}/cmd/${BINARY}
 
+.PHONY: fmt
 fmt:
 	@gofmt -w $$(find . -type f -name '*.go' -not -path "./vendor/*")
 
+.PHONY: lint
 lint:
 	@go get -v github.com/golang/lint/golint
 	@golint ./... | grep -v vendor/ | true
 
+.PHONY: list
 list:
 	@go list -f '{{ .ImportPath }}' ./... | grep -v vendor/
 
+.PHONY: cross
 cross:
 ifdef GOX
 	@gox -ldflags=${LDFLAGS} -output="bin/{{.Dir}}_{{.OS}}_{{.Arch}}" -os=${OSES} -arch=${ARCHS} github.com/umayr/${BINARY}/cmd/${BINARY}
