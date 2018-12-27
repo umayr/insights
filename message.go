@@ -70,14 +70,14 @@ func NewMessage(raw string, loc *time.Location) (*Message, error) {
 	m := &Message{}
 	m.rawText = regexp.MustCompile(regexASCII).ReplaceAllLiteralString(raw, "")
 
-	if strings.Contains(raw, "Messages to this group are now secured with end-to-end encryption.") || strings.Contains(raw, "created this group") {
+	if strings.Contains(raw, "Messages to this group are now secured with end-to-end encryption.") {
 		return nil, ErrInvalidMessage
 	}
 
 	r := regexp.MustCompile(regexMetaInfo)
 	t := r.Split(raw, -1)
 	if len(t) < 2 {
-		return m, fmt.Errorf("unable to parse message: %s", raw)
+		return nil, ErrInvalidMessage
 	}
 
 	msg := t[1]
