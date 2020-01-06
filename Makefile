@@ -68,7 +68,7 @@ fmt:
 
 .PHONY: lint
 lint:
-	@go get -v github.com/golang/lint/golint
+	@go get -v golang.org/x/lint/golint
 	@golint ./... | grep -v vendor/ | true
 
 .PHONY: list
