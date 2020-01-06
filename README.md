@@ -3,11 +3,7 @@
  
 ## Usage
 ```bash
-   # if you have go set up, install with the go get
-   λ go get -u github.com/umayr/insights/cmd/insights
-   # make sure you have $GOBIN defined in your environment
-   λ insights -pretty ./path/to/chat/file.txt
-   # you can also clone the repository and make the binary yourself
+   # you can clone the repository and make the binary yourself
    λ git clone git@github.com:umayr/insights
    λ cd insights
    λ make
@@ -15,6 +11,7 @@
    # for different timezones you can use -timezone flag
    λ insights -pretty -timezone=Asia/Dubai ./path/to/chat/file.txt
 ```
+Or you can just download prebuilt binaries from here: [Link](https://github.com/umayr/insights/releases/latest)
  
 ## Metrics
 
