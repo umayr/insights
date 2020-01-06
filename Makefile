@@ -42,7 +42,7 @@ else
 endif
 
 .PHONY: clean
-clean:
+clean: pack
 	@packr clean
 	@if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
 
@@ -60,7 +60,7 @@ test: pretest vet lint dep
 
 .PHONY: build
 build: clean test
-	@packr && go build -x -ldflags ${LDFLAGS} -o bin/${BINARY} github.com/umayr/${BINARY}/cmd/${BINARY}
+	@go build -x -ldflags ${LDFLAGS} -o bin/${BINARY} github.com/umayr/${BINARY}/cmd/${BINARY}
 
 .PHONY: fmt
 fmt:
